@@ -3,7 +3,7 @@
 
 from typing import Dict
 
-from homeassistant.components.pollenvarsel.models import Area
+from .models import Area
 
 DOMAIN = "pollenvarsel"
 CONF_AREA = "area"

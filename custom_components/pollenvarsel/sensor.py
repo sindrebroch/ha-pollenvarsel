@@ -4,11 +4,11 @@ from enum import IntEnum
 import logging
 from typing import Final, List, Optional, Tuple, cast
 
-from homeassistant.components.pollenvarsel.const import (
+from .const import (
     CONF_AREA,
     DOMAIN as POLLENVARSEL_DOMAIN,
 )
-from homeassistant.components.pollenvarsel.models import (
+from .models import (
     Allergen,
     Area,
     PollenForecast,

@@ -7,8 +7,8 @@ from typing import Optional
 import aiohttp
 from voluptuous.error import Error
 
-from homeassistant.components.pollenvarsel.const import AREA_PATH
-from homeassistant.components.pollenvarsel.models import Area, PollenvarselResponse
+from .const import AREA_PATH
+from .models import Area, PollenvarselResponse
 from homeassistant.const import HTTP_OK, HTTP_UNAUTHORIZED
 
 SCHEME = "https"
