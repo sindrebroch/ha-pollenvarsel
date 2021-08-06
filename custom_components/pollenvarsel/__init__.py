@@ -9,7 +9,7 @@ from aiohttp.client_exceptions import ClientConnectorError
 from async_timeout import timeout
 from voluptuous.error import Error
 
-from homeassistant.components.pollenvarsel.models import PollenvarselResponse
+from .models import PollenvarselResponse
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
