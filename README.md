@@ -22,12 +22,8 @@ HomeAssistant-integration for Pollenvarsel
 3. Restart Home Assistant.
 4. Configure the `Pollenvarsel`-integration.
 
-
-## Configuration
-
-## Known issues
-
 ## Todo
+- [ ] Customize polling
 
 ## Features
 ### Sensor (current and forecast)
