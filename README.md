@@ -34,3 +34,17 @@ HomeAssistant-integration for Pollenvarsel
 - Hassel
 - Or
 - Salix 
+
+### Possible areas
+- Finnmark
+- Hordaland
+- Indre Østland
+- Møre og Romsdal
+- Nordland
+- Rogaland
+- Sentrale fjellstrøk i Sør-Norge
+- Sogn og Fjordane
+- Sørlandet
+- Troms
+- Trøndelag
+- Østlandet med Oslo
