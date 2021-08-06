@@ -15,8 +15,8 @@ HomeAssistant-integration for Pollenvarsel
 ### MANUAL INSTALLATION
 
 1. Download the `Source code (zip)` file from the
-   [latest release](https://github.com/sindrebroch/pollenvarsel/releases/latest).
-2. Unpack the release and copy the `custom_components/pollenvarsel` directory
+   [latest release](https://github.com/sindrebroch/ha-pollenvarsel/releases/latest).
+2. Unpack the release and copy the `custom_components/ha-pollenvarsel` directory
    into the `custom_components` directory of your Home Assistant
    installation.
 3. Restart Home Assistant.
@@ -25,10 +25,15 @@ HomeAssistant-integration for Pollenvarsel
 
 ## Configuration
 
-## API limitation
-
 ## Known issues
 
 ## Todo
 
 ## Features
+### Sensor (current and forecast)
+- Bjørk
+- Burot
+- Gress
+- Hassel
+- Or
+- Salix 
