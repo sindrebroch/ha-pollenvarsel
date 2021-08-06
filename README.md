@@ -24,6 +24,7 @@ HomeAssistant-integration for Pollenvarsel
 
 ## Todo
 - [ ] Customize polling
+- [ ] Add Releases on github
 
 ## Features
 ### Sensor (current and forecast)
