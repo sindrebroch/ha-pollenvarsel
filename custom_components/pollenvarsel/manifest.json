@@ -1,10 +1,15 @@
 {
   "domain": "pollenvarsel",
-  "name": "Polllenvarsel",
+  "name": "Pollenvarsel",
+  "config_flow": true,
   "documentation": "https://www.github.com/sindrebroch/pollenvarsel",
   "requirements": [],
-  "codeowners": ["@sindrebroch"],
-  "config_flow": true,
-  "iot_class": "cloud_polling",
-  "version": "0.0.1"
+  "ssdp": [],
+  "zeroconf": [],
+  "homekit": {},
+  "dependencies": [],
+  "codeowners": [
+    "@sindrebroch"
+  ],
+  "iot_class": "cloud_polling"
 }

@@ -1,0 +1,19 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Enhet er allerede konfigurert"
+        },
+        "error": {
+            "cannot_connect": "Klarte ikke koble til",
+            "invalid_auth": "Ugyldig autentisering",
+            "unknown": "Uforventet feil"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "area": "Velg område"
+                }
+            }
+        }
+    }
+}
