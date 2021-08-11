@@ -7,12 +7,12 @@ from typing import Optional
 import aiohttp
 from voluptuous.error import Error
 
-from .const import AREA_PATH
-from .models import Area, PollenvarselResponse
 from homeassistant.const import HTTP_OK, HTTP_UNAUTHORIZED
 
-SCHEME = "https"
-BASE_URL = "pollenkontroll.no/api/middleware/pollen"
+from .const import AREA_PATH
+from .models import Area, PollenvarselResponse
+
+BASE_URL = "https://pollenkontroll.no/api/middleware/pollen"
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -25,7 +25,7 @@ class Pollenvarsel:
         area: Area,
         session: Optional[aiohttp.client.ClientSession] = None,
     ) -> None:
-        """Initialize connection with Flexit."""
+        """Initialize connection with Pollenvarsel."""
 
         self._session = session
         self.area: Area = area
@@ -37,7 +37,7 @@ class Pollenvarsel:
             raise RuntimeError("Session required")
 
         area_path: str = AREA_PATH[Area(self.area)]
-        URL = f"{SCHEME}://{BASE_URL}/{area_path}"
+        URL = f"{BASE_URL}/{area_path}"
         _LOGGER.debug("Fetching pollenvarsel for area=%s. URL=%s", self.area, URL)
 
         async with self._session.get(url=URL) as resp:

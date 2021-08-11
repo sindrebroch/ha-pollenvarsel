@@ -9,7 +9,6 @@ from aiohttp.client_exceptions import ClientConnectorError
 from async_timeout import timeout
 from voluptuous.error import Error
 
-from .models import PollenvarselResponse
 from homeassistant.config_entries import SOURCE_IMPORT, ConfigEntry
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -17,7 +16,7 @@ from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN
-from .models import Area
+from .models import Area, PollenvarselResponse
 from .pollenvarsel import Pollenvarsel
 
 PLATFORMS = ["sensor"]

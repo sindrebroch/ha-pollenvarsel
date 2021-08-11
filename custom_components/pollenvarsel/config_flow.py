@@ -8,12 +8,12 @@ import aiohttp
 import voluptuous as vol
 
 from homeassistant import config_entries
-from .pollenvarsel import Pollenvarsel
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import AREA_PATH, CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN
 from .models import Area
+from .pollenvarsel import Pollenvarsel
 
 _LOGGER = logging.getLogger(__name__)
 

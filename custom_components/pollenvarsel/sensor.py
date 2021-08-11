@@ -4,16 +4,6 @@ from enum import IntEnum
 import logging
 from typing import Final, List, Optional, Tuple, cast
 
-from .const import (
-    CONF_AREA,
-    DOMAIN as POLLENVARSEL_DOMAIN,
-)
-from .models import (
-    Allergen,
-    Area,
-    PollenForecast,
-    PollenvarselResponse,
-)
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
@@ -24,6 +14,9 @@ from homeassistant.helpers.update_coordinator import (
     CoordinatorEntity,
     DataUpdateCoordinator,
 )
+
+from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN
+from .models import Allergen, Area, PollenForecast, PollenvarselResponse
 
 _LOGGER = logging.getLogger(__name__)
 
