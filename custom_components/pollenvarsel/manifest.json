@@ -2,7 +2,7 @@
   "domain": "pollenvarsel",
   "name": "Pollenvarsel",
   "config_flow": true,
-  "documentation": "https://www.github.com/sindrebroch/pollenvarsel",
+  "documentation": "https://www.github.com/sindrebroch/ha-pollenvarsel",
   "requirements": [],
   "ssdp": [],
   "zeroconf": [],
