@@ -10,8 +10,8 @@ from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import AREA_PATH, CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN, LOGGER
-from .models import Area
+from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN, LOGGER
+from .models import Area, AREA_PATH
 from .pollenvarsel import Pollenvarsel
 
 AREA_KEYS: list[str] = [area.name for area in AREA_PATH.keys()]

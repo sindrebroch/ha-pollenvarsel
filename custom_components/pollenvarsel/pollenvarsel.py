@@ -8,8 +8,8 @@ from voluptuous.error import Error
 
 from homeassistant.const import HTTP_OK, HTTP_UNAUTHORIZED
 
-from .const import AREA_PATH, LOGGER
-from .models import Area, PollenvarselResponse
+from .const import LOGGER
+from .models import Area, AREA_PATH, PollenvarselResponse
 
 BASE_URL = "https://pollenkontroll.no/api/middleware/pollen"
 
