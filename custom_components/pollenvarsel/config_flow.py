@@ -73,10 +73,10 @@ class PollenvarselFlowHandler(config_entries.ConfigFlow, domain=POLLENVARSEL_DOM
     async def _async_existing_devices(self, area: str) -> bool:
         """Find existing devices."""
 
-        LOGGER.warning("current_entries=%s", self._async_current_entries())
+        LOGGER.debug("current_entries=%s", self._async_current_entries())
         existing_devices = [
             f"{entry.data.get(CONF_AREA)}" for entry in self._async_current_entries()
         ]
-        LOGGER.warning("existing_devices=%s", existing_devices)
+        LOGGER.debug("existing_devices=%s", existing_devices)
 
         return area in existing_devices
