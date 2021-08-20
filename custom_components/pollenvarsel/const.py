@@ -24,4 +24,4 @@ AREA_PATH: Dict[Area, str] = {
     Area.SENTRALE_FJELLSTRØK_I_SØR_NORGE: "a3d194c3-7788-45ae-82e7-e8be1d75a713",
 }
 
-LOGGER: Logger = getLogger(__package__)
+LOGGER: Logger = logging.getLogger(__package__)
