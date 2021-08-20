@@ -1,7 +1,6 @@
 """Pollenvarsel library."""
 
 import json
-import logging
 from typing import Optional
 
 import aiohttp
@@ -9,13 +8,10 @@ from voluptuous.error import Error
 
 from homeassistant.const import HTTP_OK, HTTP_UNAUTHORIZED
 
-from .const import AREA_PATH
+from .const import AREA_PATH, LOGGER
 from .models import Area, PollenvarselResponse
 
 BASE_URL = "https://pollenkontroll.no/api/middleware/pollen"
-
-_LOGGER = logging.getLogger(__name__)
-
 
 class Pollenvarsel:
     """Main class for handling connection with."""
@@ -38,7 +34,7 @@ class Pollenvarsel:
 
         area_path: str = AREA_PATH[Area(self.area)]
         URL = f"{BASE_URL}/{area_path}"
-        _LOGGER.debug("Fetching pollenvarsel for area=%s. URL=%s", self.area, URL)
+        LOGGER.debug("Fetching pollenvarsel for area=%s. URL=%s", self.area, URL)
 
         async with self._session.get(url=URL) as resp:
             if resp.status == HTTP_UNAUTHORIZED:
@@ -50,5 +46,5 @@ class Pollenvarsel:
             data = await resp.json()
 
         formatted_response = PollenvarselResponse.from_dict(data)
-        _LOGGER.debug("formatted_response %s", formatted_response)
+        LOGGER.debug("formatted_response %s", formatted_response)
         return formatted_response

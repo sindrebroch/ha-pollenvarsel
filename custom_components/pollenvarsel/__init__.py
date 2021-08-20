@@ -2,7 +2,6 @@
 from __future__ import annotations
 
 from datetime import timedelta
-import logging
 
 from aiohttp.client import ClientSession
 from aiohttp.client_exceptions import ClientConnectorError
@@ -15,14 +14,11 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.typing import ConfigType
 from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
-from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN
+from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN, LOGGER
 from .models import Area, PollenvarselResponse
 from .pollenvarsel import Pollenvarsel
 
 PLATFORMS = ["sensor"]
-
-_LOGGER = logging.getLogger(__name__)
-
 
 async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
     """Set up the Pollenvarsel integration."""
@@ -92,7 +88,7 @@ class PollenvarselDataUpdateCoordinator(DataUpdateCoordinator[PollenvarselRespon
 
         super().__init__(
             hass,
-            _LOGGER,
+            LOGGER,
             name=POLLENVARSEL_DOMAIN,
             update_interval=update_interval,
         )
@@ -105,7 +101,7 @@ class PollenvarselDataUpdateCoordinator(DataUpdateCoordinator[PollenvarselRespon
                 pollenvarsel = await self.pollenvarsel.fetch()
 
         except (Error, ClientConnectorError) as error:
-            _LOGGER.error("Update error %s", error)
+            LOGGER.error("Update error %s", error)
             raise UpdateFailed(error) from error
 
         return pollenvarsel

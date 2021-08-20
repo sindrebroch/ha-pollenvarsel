@@ -1,5 +1,6 @@
 """Constants for the Pollenvarsel integration."""
 
+import logging
 
 from typing import Dict
 
@@ -22,3 +23,5 @@ AREA_PATH: Dict[Area, str] = {
     Area.ØSTLANDET_MED_OSLO: "b5bb4856-2117-433d-bf18-53504ef2f101",
     Area.SENTRALE_FJELLSTRØK_I_SØR_NORGE: "a3d194c3-7788-45ae-82e7-e8be1d75a713",
 }
+
+LOGGER: Logger = getLogger(__package__)

@@ -1,13 +1,11 @@
 """Models for Pollenvarsel."""
 
 from enum import Enum
-import logging
 from typing import Any, Dict, List
 
 import attr
 
-_LOGGER = logging.getLogger(__name__)
-
+from .const import LOGGER
 
 class Area(Enum):
     """Enum representing area."""
@@ -48,7 +46,7 @@ class PollenStation:
     def from_dict(data: Dict[str, Any]) -> "PollenStation":
         """Transform data to dict."""
 
-        _LOGGER.debug("PollenStation from_dict %s", data)
+        LOGGER.debug("PollenStation from_dict %s", data)
 
         return PollenStation(
             name=data["name"],
@@ -70,7 +68,7 @@ class Allergen:
     def from_dict(data: List[Dict[str, Any]]) -> List["Allergen"]:
         """Transform data to dict."""
 
-        _LOGGER.debug("Allergen from_dict %s", data)
+        LOGGER.debug("Allergen from_dict %s", data)
 
         allergens = []
         for allergen in data:
@@ -96,7 +94,7 @@ class PollenForecast:
     def from_dict(data: List[Dict[str, Any]]) -> List["PollenForecast"]:
         """Transform data to dict."""
 
-        _LOGGER.debug("PollenForecast from_dict %s", data)
+        LOGGER.debug("PollenForecast from_dict %s", data)
 
         forecasts = []
         for forecast in data:
@@ -122,7 +120,7 @@ class PollenvarselResponse:
     def from_dict(data: Dict[str, Any]) -> "PollenvarselResponse":
         """Transform data to dict."""
 
-        _LOGGER.debug("PollenvarselResponse from_dict %s", data)
+        LOGGER.debug("PollenvarselResponse from_dict %s", data)
 
         forecast: List[Dict[str, Any]] = data["forecast"]
         pollen_station: Dict[str, Any] = data["pollen_station"]

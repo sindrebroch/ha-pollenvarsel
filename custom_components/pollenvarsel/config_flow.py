@@ -1,7 +1,6 @@
 """Config flow for Pollenvarsel integration."""
 from __future__ import annotations
 
-import logging
 from typing import Any
 
 import aiohttp
@@ -11,11 +10,9 @@ from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import AREA_PATH, CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN
+from .const import AREA_PATH, CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN, LOGGER
 from .models import Area
 from .pollenvarsel import Pollenvarsel
-
-_LOGGER = logging.getLogger(__name__)
 
 AREA_KEYS: list[str] = [area.name for area in AREA_PATH.keys()]
 SCHEMA = vol.Schema({vol.Required(CONF_AREA): vol.In(sorted(AREA_KEYS))})
@@ -51,7 +48,7 @@ class PollenvarselFlowHandler(config_entries.ConfigFlow, domain=POLLENVARSEL_DOM
                     await pollenvarsel.fetch()
                 except aiohttp.ClientError as error:
                     errors["base"] = "cannot_connect"
-                    _LOGGER.warning("error=%s. errors=%s", error, errors)
+                    LOGGER.warning("error=%s. errors=%s", error, errors)
 
                 if errors:
                     return self.async_show_form(
@@ -76,10 +73,10 @@ class PollenvarselFlowHandler(config_entries.ConfigFlow, domain=POLLENVARSEL_DOM
     async def _async_existing_devices(self, area: str) -> bool:
         """Find existing devices."""
 
-        _LOGGER.warning("current_entries=%s", self._async_current_entries())
+        LOGGER.warning("current_entries=%s", self._async_current_entries())
         existing_devices = [
             f"{entry.data.get(CONF_AREA)}" for entry in self._async_current_entries()
         ]
-        _LOGGER.warning("existing_devices=%s", existing_devices)
+        LOGGER.warning("existing_devices=%s", existing_devices)
 
         return area in existing_devices

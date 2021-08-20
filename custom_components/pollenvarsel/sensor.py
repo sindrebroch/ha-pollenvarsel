@@ -1,7 +1,6 @@
 """Sensor file for pollenvarsel."""
 
 from enum import IntEnum
-import logging
 from typing import Final, List, Optional, Tuple, cast
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
@@ -15,10 +14,8 @@ from homeassistant.helpers.update_coordinator import (
     DataUpdateCoordinator,
 )
 
-from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN
+from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN, LOGGER
 from .models import Allergen, Area, PollenForecast, PollenvarselResponse
-
-_LOGGER = logging.getLogger(__name__)
 
 ENTITY_SALIX: Final[str] = "salix"
 ENTITY_BJORK: Final[str] = "bjørk"
@@ -169,6 +166,6 @@ def _get_sensor_data(sensors: PollenvarselResponse, day: Day, sensor_name: str) 
         if allergen.name.lower() == sensor_name.lower():
             return allergen.level_description
 
-    _LOGGER.warning("Could not find state for sensor.%s", sensor_name)
+    LOGGER.warning("Could not find state for sensor.%s", sensor_name)
 
     return ""
