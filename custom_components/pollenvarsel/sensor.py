@@ -9,6 +9,8 @@ from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
+from homeassistant.const import HTTP_SERVICE_UNAVAILABLE
+
 from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN, LOGGER
 from .coordinator import PollenvarselDataUpdateCoordinator
 from .models import Allergen, Area, Day, Entities, PollenForecast, PollenvarselResponse
@@ -115,10 +117,13 @@ class PollenvarselSensor(CoordinatorEntity, SensorEntity):
         self.async_write_ha_state()
 
 
-def _get_sensor_data(sensors: PollenvarselResponse, day: Day, sensor_name: str) -> str:
+def _get_sensor_data(response: PollenvarselResponse, day: Day, sensor_name: str) -> str:
     """Get sensor data."""
 
-    forecasts: List[PollenForecast] = sensors.forecast
+    if response.status == HTTP_SERVICE_UNAVAILABLE:
+        return "Service unavailable"
+
+    forecasts: List[PollenForecast] = response.forecast
     current_day_forecast: PollenForecast = forecasts.__getitem__(day.value)
     allergens: List[Allergen] = current_day_forecast.allergens
 
