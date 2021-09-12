@@ -38,13 +38,19 @@ class PollenvarselApiClient:
 
         async with self._session.get(url=URL) as resp:
             if resp.status == HTTP_UNAUTHORIZED:
+                LOGGER.debug("Unauthorized")
                 raise Error(f"Unauthorized. {resp.status}")
             if resp.status != HTTP_OK:
-                error_text = json.loads(await resp.text())
+                LOGGER.debug("Response not OK")
+                response_text = await resp.text()
+                LOGGER.debug("response_text=%s", response_text)
+                error_text = json.loads(response_text)
+                LOGGER.debug("error_text=%s", error_text)
                 raise Error(f"Not OK {resp.status} {error_text}")
 
             data = await resp.json()
 
+        LOGGER.debug("data=%s", data)
         formatted_response = PollenvarselResponse.from_dict(data)
         LOGGER.debug("formatted_response %s", formatted_response)
         return formatted_response
