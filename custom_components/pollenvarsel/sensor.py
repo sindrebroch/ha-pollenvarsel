@@ -1,70 +1,51 @@
 """Sensor file for pollenvarsel."""
 
-from enum import IntEnum
-from typing import Final, List, Optional, Tuple, cast
+from typing import List, Optional, cast
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant, callback
-from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
-from homeassistant.helpers.update_coordinator import (
-    CoordinatorEntity,
-    DataUpdateCoordinator,
-)
+from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
 from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN, LOGGER
 from .coordinator import PollenvarselDataUpdateCoordinator
-from .models import Allergen, Area, PollenForecast, PollenvarselResponse
+from .models import Allergen, Area, Day, Entities, PollenForecast, PollenvarselResponse
 
-ENTITY_SALIX: Final[str] = "salix"
-ENTITY_BJORK: Final[str] = "bjørk"
-ENTITY_OR: Final[str] = "or"
-ENTITY_HASSEL: Final[str] = "hassel"
-ENTITY_GRESS: Final[str] = "gress"
-ENTITY_BUROT: Final[str] = "burot"
 
-SENSORS: Final[Tuple[SensorEntityDescription, ...]] = (
+SENSORS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
-        key=ENTITY_SALIX,
+        key=Entities.Salix.value,
         name="Salix",
         icon="mdi:tree",
     ),
     SensorEntityDescription(
-        key=ENTITY_BJORK,
+        key=Entities.BJORK.value,
         name="Bjørk",
         icon="mdi:tree",
     ),
     SensorEntityDescription(
-        key=ENTITY_OR,
+        key=Entities.OR.value,
         name="Or",
         icon="mdi:tree",
     ),
     SensorEntityDescription(
-        key=ENTITY_HASSEL,
+        key=Entities.HASSEL.value,
         name="Hassel",
         icon="mdi:tree",
     ),
     SensorEntityDescription(
-        key=ENTITY_GRESS,
+        key=Entities.GRESS.value,
         name="Gress",
         icon="mdi:tree",
     ),
     SensorEntityDescription(
-        key=ENTITY_BUROT,
+        key=Entities.BUROT.value,
         name="Burot",
         icon="mdi:tree",
     ),
 )
-
-
-class Day(IntEnum):
-    """Enum representing type of Day."""
-
-    TODAY = 0
-    TOMORROW = 1
-
 
 async def async_setup_entry(
     hass: HomeAssistant,

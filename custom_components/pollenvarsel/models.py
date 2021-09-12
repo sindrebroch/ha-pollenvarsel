@@ -1,11 +1,26 @@
 """Models for Pollenvarsel."""
 
-from enum import Enum
+from enum import Enum, IntEnum
 from typing import Any, Dict, List
 
 import attr
 
 from .const import LOGGER
+
+
+class Day(IntEnum):
+    """Enum representing type of Day."""
+
+    TODAY = 0
+    TOMORROW = 1
+
+class Entities(Enum):
+    SALIX = "salix"
+    BJORK = "bjørk"
+    OR = "or"
+    HASSEL = "hassel"
+    GRESS = "gress"
+    BUROT = "burot"
 
 class Area(Enum):
     """Enum representing area."""
