@@ -5,13 +5,7 @@
   "documentation": "https://www.github.com/sindrebroch/ha-pollenvarsel",
   "issue_tracker": "https://github.com/sindrebroch/ha-pollenvarsel/issues",
   "requirements": [],
-  "ssdp": [],
-  "zeroconf": [],
-  "homekit": {},
-  "dependencies": [],
-  "codeowners": [
-    "@sindrebroch"
-  ],
+  "codeowners": ["@sindrebroch"],
   "iot_class": "cloud_polling",
   "version": "1.0.0"
 }

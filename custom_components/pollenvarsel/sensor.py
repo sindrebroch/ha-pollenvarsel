@@ -15,6 +15,7 @@ from homeassistant.helpers.update_coordinator import (
 )
 
 from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN, LOGGER
+from .coordinator import PollenvarselDataUpdateCoordinator
 from .models import Allergen, Area, PollenForecast, PollenvarselResponse
 
 ENTITY_SALIX: Final[str] = "salix"
@@ -72,41 +73,27 @@ async def async_setup_entry(
 ) -> None:
     """Add Pollenvarsel entities from a config_entry."""
 
-    coordinator: DataUpdateCoordinator = hass.data[POLLENVARSEL_DOMAIN][entry.entry_id]
+    coordinator: PollenvarselDataUpdateCoordinator = hass.data[POLLENVARSEL_DOMAIN][entry.entry_id]
 
-    area: Optional[Area] = Area.from_str(entry.data[CONF_AREA])  #
-
-    sensors: List[PollenvarselSensor] = []
+    area: Optional[Area] = Area.from_str(entry.data[CONF_AREA])
 
     if area is not None:
         for sensor_description in SENSORS:
-            sensors.append(
-                PollenvarselSensor(
-                    area,
-                    coordinator,
-                    sensor_description,
-                    Day.TODAY,
-                ),
+            async_add_entities(
+                PollenvarselSensor(area, coordinator, sensor_description, Day.TODAY),
+                PollenvarselSensor(area, coordinator, sensor_description, Day.TOMORROW),
             )
-            sensors.append(
-                PollenvarselSensor(
-                    area,
-                    coordinator,
-                    sensor_description,
-                    Day.TOMORROW,
-                ),
-            )
-
-    async_add_entities(sensors)
 
 
 class PollenvarselSensor(CoordinatorEntity, SensorEntity):
     """Define a Pollenvarsel entity."""
 
+    coordinator: PollenvarselDataUpdateCoordinator
+
     def __init__(
         self,
         area: Area,
-        coordinator: DataUpdateCoordinator,
+        coordinator: PollenvarselDataUpdateCoordinator,
         description: SensorEntityDescription,
         day: Day,
     ) -> None:
@@ -114,36 +101,28 @@ class PollenvarselSensor(CoordinatorEntity, SensorEntity):
 
         super().__init__(coordinator)
 
+        self.coordinator = coordinator
         self.entity_description = description
 
         self.day: Day = Day(day)
         self.area: Area = Area(area)
         self.sensor_data: str = _get_sensor_data(coordinator.data, day, description.key)
 
+        self._attr_device_info = coordinator._attr_device_info
+
         if day == Day.TODAY:
-            self._attr_unique_id = f"{self.area.name}_{description.key}"
             self._attr_name = f"{self.area.name.title()} {description.key}"
+            self._attr_unique_id = f"{self.area.name}_{description.key}"
         else:
             day_string: str = "imorgen" if day == Day.TOMORROW else ""
             self._attr_name = f"{self.area.name.title()} {description.key} {day_string}"
             self._attr_unique_id = f"{self.area.name}_{description.key}_{day_string}"
 
     @property
-    def state(self) -> StateType:
+    def native_value(self) -> StateType:
         """Return the state."""
 
         return cast(StateType, self.sensor_data)
-
-    @property
-    def device_info(self) -> Optional[DeviceInfo]:
-        """Return the device info."""
-
-        return {
-            "identifiers": {(POLLENVARSEL_DOMAIN, self.area.name)},
-            "name": f"Pollenvarsel {self.area.name.title()}",
-            "model": "Pollenvarsel",
-            "manufacturer": f"{self.area.name.title()}",
-        }
 
     @callback
     def _handle_coordinator_update(self) -> None:
@@ -168,4 +147,4 @@ def _get_sensor_data(sensors: PollenvarselResponse, day: Day, sensor_name: str) 
 
     LOGGER.debug("Could not find state for sensor.%s", sensor_name)
 
-    return ""
+    return "Not found"

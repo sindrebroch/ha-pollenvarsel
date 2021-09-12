@@ -10,9 +10,9 @@ from homeassistant import config_entries
 from homeassistant.data_entry_flow import FlowResult
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
+from .api import PollenvarselApiClient
 from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN, LOGGER
 from .models import Area, AREA_PATH
-from .pollenvarsel import Pollenvarsel
 
 AREA_KEYS: list[str] = [area.name for area in AREA_PATH.keys()]
 SCHEMA = vol.Schema({vol.Required(CONF_AREA): vol.In(sorted(AREA_KEYS))})
@@ -36,16 +36,18 @@ class PollenvarselFlowHandler(config_entries.ConfigFlow, domain=POLLENVARSEL_DOM
 
                 area: Area = Area.from_str(optional_area)
 
-                if await self._async_existing_devices(area.name):
-                    return self.async_abort(reason="already_configured")
+                await self.async_set_unique_id(area.name)
+                self._abort_if_unique_id_configured()
 
-                session = async_get_clientsession(self.hass)
-                pollenvarsel = Pollenvarsel(area=area, session=session)
+                api = PollenvarselApiClient(
+                    area=area, 
+                    session=async_get_clientsession(self.hass),
+                )
 
                 errors: dict[str, Any] = {}
 
                 try:
-                    await pollenvarsel.fetch()
+                    await api.fetch()
                 except aiohttp.ClientError as error:
                     errors["base"] = "cannot_connect"
                     LOGGER.warning("error=%s. errors=%s", error, errors)
@@ -55,12 +57,8 @@ class PollenvarselFlowHandler(config_entries.ConfigFlow, domain=POLLENVARSEL_DOM
                         step_id="user", data_schema=SCHEMA, errors=errors
                     )
 
-                unique_id: str = pollenvarsel.area.name
-                await self.async_set_unique_id(unique_id)
-                self._abort_if_unique_id_configured()
-
                 return self.async_create_entry(
-                    title=unique_id.title(),
+                    title=area.name.title(),
                     data=user_input,
                 )
 
@@ -69,14 +67,3 @@ class PollenvarselFlowHandler(config_entries.ConfigFlow, domain=POLLENVARSEL_DOM
             data_schema=SCHEMA,
             errors={},
         )
-
-    async def _async_existing_devices(self, area: str) -> bool:
-        """Find existing devices."""
-
-        LOGGER.debug("current_entries=%s", self._async_current_entries())
-        existing_devices = [
-            f"{entry.data.get(CONF_AREA)}" for entry in self._async_current_entries()
-        ]
-        LOGGER.debug("existing_devices=%s", existing_devices)
-
-        return area in existing_devices

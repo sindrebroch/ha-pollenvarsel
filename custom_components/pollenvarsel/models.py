@@ -49,7 +49,7 @@ AREA_PATH: Dict[Area, str] = {
     Area.SENTRALE_FJELLSTRØK_I_SØR_NORGE: "a3d194c3-7788-45ae-82e7-e8be1d75a713",
 }
 
-@attr.s(auto_attribs=True, frozen=True)
+@attr.s(auto_attribs=True)
 class PollenStation:
     """Class representing PollenStation."""
 
@@ -61,7 +61,7 @@ class PollenStation:
     def from_dict(data: Dict[str, Any]) -> "PollenStation":
         """Transform data to dict."""
 
-        LOGGER.debug("PollenStation from_dict %s", data)
+        LOGGER.debug("PollenStation=%s", data)
 
         return PollenStation(
             name=data["name"],
@@ -70,7 +70,7 @@ class PollenStation:
         )
 
 
-@attr.s(auto_attribs=True, frozen=True)
+@attr.s(auto_attribs=True)
 class Allergen:
     """Class representing Allergen."""
 
@@ -83,7 +83,7 @@ class Allergen:
     def from_dict(data: List[Dict[str, Any]]) -> List["Allergen"]:
         """Transform data to dict."""
 
-        LOGGER.debug("Allergen from_dict %s", data)
+        LOGGER.debug("Allergen=%s", data)
 
         allergens = []
         for allergen in data:
@@ -98,7 +98,7 @@ class Allergen:
         return allergens
 
 
-@attr.s(auto_attribs=True, frozen=True)
+@attr.s(auto_attribs=True)
 class PollenForecast:
     """Class representing PollenForecast."""
 
@@ -123,7 +123,7 @@ class PollenForecast:
         return forecasts
 
 
-@attr.s(auto_attribs=True, frozen=True)
+@attr.s(auto_attribs=True)
 class PollenvarselResponse:
     """Class representing Pollenvarsel."""
 
@@ -135,7 +135,7 @@ class PollenvarselResponse:
     def from_dict(data: Dict[str, Any]) -> "PollenvarselResponse":
         """Transform data to dict."""
 
-        LOGGER.debug("PollenvarselResponse from_dict %s", data)
+        LOGGER.debug("PollenvarselResponse=%s", data)
 
         forecast: List[Dict[str, Any]] = data["forecast"]
         pollen_station: Dict[str, Any] = data["pollen_station"]
