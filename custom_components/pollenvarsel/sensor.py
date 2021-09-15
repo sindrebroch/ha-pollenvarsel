@@ -63,8 +63,10 @@ async def async_setup_entry(
     if area is not None:
         for sensor_description in SENSORS:
             async_add_entities(
-                PollenvarselSensor(area, coordinator, sensor_description, Day.TODAY),
-                PollenvarselSensor(area, coordinator, sensor_description, Day.TOMORROW),
+                [
+                    PollenvarselSensor(area, coordinator, sensor_description, Day.TODAY),
+                    PollenvarselSensor(area, coordinator, sensor_description, Day.TOMORROW),
+                ]
             )
 
 
