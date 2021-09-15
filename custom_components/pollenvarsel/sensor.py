@@ -18,7 +18,7 @@ from .models import Allergen, Area, Day, Entities, PollenForecast, PollenvarselR
 
 SENSORS: tuple[SensorEntityDescription, ...] = (
     SensorEntityDescription(
-        key=Entities.Salix.value,
+        key=Entities.SALIX.value,
         name="Salix",
         icon="mdi:tree",
     ),
