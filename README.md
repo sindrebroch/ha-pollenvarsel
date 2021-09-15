@@ -24,6 +24,7 @@ HomeAssistant-integration for Pollenvarsel
 
 ## Todo
 - [ ] Customize polling
+- [ ] Cleanup sensor naming
 
 ## Features
 ### Sensor (current and forecast)
