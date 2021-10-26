@@ -1,5 +1,6 @@
 """Sensor file for pollenvarsel."""
 
+from http import HTTPStatus
 from typing import List, Optional, cast
 
 from homeassistant.components.sensor import SensorEntity, SensorEntityDescription
@@ -8,8 +9,6 @@ from homeassistant.core import HomeAssistant, callback
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.typing import StateType
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
-
-from homeassistant.const import HTTP_SERVICE_UNAVAILABLE
 
 from .const import CONF_AREA, DOMAIN as POLLENVARSEL_DOMAIN, LOGGER
 from .coordinator import PollenvarselDataUpdateCoordinator
@@ -122,7 +121,7 @@ class PollenvarselSensor(CoordinatorEntity, SensorEntity):
 def _get_sensor_data(response: PollenvarselResponse, day: Day, sensor_name: str) -> str:
     """Get sensor data."""
 
-    if response.status == HTTP_SERVICE_UNAVAILABLE:
+    if response.status == HTTPStatus.SERVICE_UNAVAILABLE:
         return "Service unavailable"
 
     forecasts: List[PollenForecast] = response.forecast

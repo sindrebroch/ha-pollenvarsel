@@ -1,12 +1,11 @@
 """Pollenvarsel library."""
 
+from http import HTTPStatus
 import json
 from typing import Optional
 
 import aiohttp
 from voluptuous.error import Error
-
-from homeassistant.const import HTTP_OK, HTTP_UNAUTHORIZED, HTTP_SERVICE_UNAVAILABLE
 
 from .const import LOGGER
 from .models import Area, AREA_PATH, PollenvarselResponse
@@ -37,17 +36,17 @@ class PollenvarselApiClient:
         LOGGER.debug("Fetching pollenvarsel for area=%s. URL=%s", self.area, URL)
 
         async with self._session.get(url=URL) as resp:
-            if resp.status == HTTP_SERVICE_UNAVAILABLE:
+            if resp.status == HTTPStatus.SERVICE_UNAVAILABLE:
                 LOGGER.debug("Service unavailable")
                 return PollenvarselResponse(
                     status=503,
                     forecast=[],
                     pollen_station={}
                 )
-            if resp.status == HTTP_UNAUTHORIZED:
+            if resp.status == HTTPStatus.UNAUTHORIZED:
                 LOGGER.debug("Unauthorized")
                 raise Error(f"Unauthorized. {resp.status}")
-            if resp.status != HTTP_OK:
+            if resp.status != HTTPStatus.OK:
                 LOGGER.debug("Response not OK")
                 response_text = await resp.text()
                 LOGGER.debug("response_text=%s", response_text)
