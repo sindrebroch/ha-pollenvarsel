@@ -115,8 +115,7 @@ class PollenvarselSensor(CoordinatorEntity, SensorEntity):
         self.sensor_data = _get_sensor_data(
             self.coordinator.data, self.day, self.entity_description.key
         )
-        self.async_write_ha_state()
-
+        super()._handle_coordinator_update()
 
 def _get_sensor_data(response: PollenvarselResponse, day: Day, sensor_name: str) -> str:
     """Get sensor data."""
