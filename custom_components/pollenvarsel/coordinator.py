@@ -31,12 +31,12 @@ class PollenvarselDataUpdateCoordinator(DataUpdateCoordinator[PollenvarselRespon
         self.area: Area = area
         self.api = PollenvarselApiClient(area=area, session=session)
 
-        self._attr_device_info: DeviceInfo = {
-            "identifiers": {(POLLENVARSEL_DOMAIN, self.area.name)},
-            "name": f"Pollenvarsel {self.area.name.title()}",
-            "model": "Pollenvarsel",
-            "manufacturer": f"{self.area.name.title()}",
-        }
+        self._attr_device_info = DeviceInfo(
+            identifiers={(POLLENVARSEL_DOMAIN, self.area.name)},
+            name=f"Pollenvarsel {self.area.name.title()}",
+            model="Pollenvarsel",
+            manufacturer=f"{self.area.name.title()}",
+        )
 
         super().__init__(
             hass,
