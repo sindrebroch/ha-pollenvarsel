@@ -91,8 +91,9 @@ class Allergen:
 
     name: str
     latin_name: str
-    level_number: int
-    level_description: str
+    level: int
+    no_data: bool
+    out_of_season: bool
 
     @staticmethod
     def from_dict(data: List[Dict[str, Any]]) -> List["Allergen"]:
@@ -106,8 +107,9 @@ class Allergen:
                 Allergen(
                     name=allergen["name"],
                     latin_name=allergen["latin_name"],
-                    level_number=int(allergen["level_number"]),
-                    level_description=allergen["level_description"],
+                    level=int(allergen["level"]),
+                    no_data=bool(allergen["no_data"]),
+                    out_of_season=bool(allergen["out_of_season"]),
                 )
             )
         return allergens
