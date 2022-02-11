@@ -129,7 +129,7 @@ def _get_sensor_data(response: PollenvarselResponse, day: Day, sensor_name: str)
 
     for allergen in allergens:
         if allergen.name.lower() == sensor_name.lower():
-            return allergen.level_description
+            return allergen.level
 
     LOGGER.debug("Could not find state for sensor.%s", sensor_name)
 
