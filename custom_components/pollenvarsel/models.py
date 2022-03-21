@@ -91,7 +91,7 @@ class Allergen:
 
     name: str
     latin_name: str
-    level: int
+    level: float
     no_data: bool
     out_of_season: bool
 
@@ -107,7 +107,7 @@ class Allergen:
                 Allergen(
                     name=allergen["name"],
                     latin_name=allergen["latin_name"],
-                    level=int(allergen["level"]),
+                    level=float(allergen["level"]),
                     no_data=bool(allergen["no_data"]),
                     out_of_season=bool(allergen["out_of_season"]),
                 )
