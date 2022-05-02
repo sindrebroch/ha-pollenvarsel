@@ -7,10 +7,9 @@ from typing import Optional
 import aiohttp
 from voluptuous.error import Error
 
-from .const import LOGGER
+from .const import BASE_URL, LOGGER
 from .models import Area, AREA_PATH, PollenvarselResponse
 
-BASE_URL = "https://pollenkontroll.no/api/middleware/pollen"
 
 class PollenvarselApiClient:
     """Main class for handling connection with."""
@@ -38,11 +37,7 @@ class PollenvarselApiClient:
         async with self._session.get(url=URL) as resp:
             if resp.status == HTTPStatus.SERVICE_UNAVAILABLE:
                 LOGGER.debug("Service unavailable")
-                return PollenvarselResponse(
-                    status=503,
-                    forecast=[],
-                    pollen_station={}
-                )
+                return PollenvarselResponse(status=503, forecast=[], pollen_station={})
             if resp.status == HTTPStatus.UNAUTHORIZED:
                 LOGGER.debug("Unauthorized")
                 raise Error(f"Unauthorized. {resp.status}")

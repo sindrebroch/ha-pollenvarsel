@@ -5,10 +5,9 @@ from __future__ import annotations
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
-from custom_components.pollenvarsel.coordinator import PollenvarselDataUpdateCoordinator
-from custom_components.pollenvarsel.models import PollenvarselResponse
-
-from .const import DOMAIN
+from .const import BASE_URL, DOMAIN
+from .coordinator import PollenvarselDataUpdateCoordinator
+from .models import Area, AREA_PATH, PollenvarselResponse
 
 
 async def async_get_config_entry_diagnostics(
@@ -16,9 +15,16 @@ async def async_get_config_entry_diagnostics(
 ) -> dict:
     """Return diagnostics for a config entry."""
 
-    coordinator: PollenvarselDataUpdateCoordinator = hass.data[DOMAIN][config_entry.entry_id]
+    coordinator: PollenvarselDataUpdateCoordinator = hass.data[DOMAIN][
+        config_entry.entry_id
+    ]
     data: PollenvarselResponse = coordinator.data
+
+    area: Area = coordinator.area
+    area_path: str = AREA_PATH[Area(area)]
 
     return {
         "data": str(data),
+        "area": str(area),
+        "url": f"{BASE_URL}/{area_path}",
     }
