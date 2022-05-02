@@ -1,8 +1,11 @@
 """Pollenvarsel library."""
 
 from http import HTTPStatus
-import json
 from typing import Optional
+
+import datetime
+import json
+import math
 
 import aiohttp
 from voluptuous.error import Error
@@ -31,7 +34,8 @@ class PollenvarselApiClient:
             raise RuntimeError("Session required")
 
         area_path: str = AREA_PATH[Area(self.area)]
-        URL = f"{BASE_URL}/{area_path}"
+        timestamp = datetime.datetime.now().timestamp() * 1000
+        URL = f"{BASE_URL}/{area_path}?t={math.floor(timestamp)}"
         LOGGER.debug("Fetching pollenvarsel for area=%s. URL=%s", self.area, URL)
 
         async with self._session.get(url=URL) as resp:

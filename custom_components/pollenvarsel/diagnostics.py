@@ -2,6 +2,9 @@
 
 from __future__ import annotations
 
+import datetime
+import math
+
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
@@ -22,9 +25,10 @@ async def async_get_config_entry_diagnostics(
 
     area: Area = coordinator.area
     area_path: str = AREA_PATH[Area(area)]
+    timestamp = datetime.datetime.now().timestamp() * 1000
 
     return {
         "data": str(data),
         "area": str(area),
-        "url": f"{BASE_URL}/{area_path}",
+        "url": f"{BASE_URL}/{area_path}?t={math.floor(timestamp)}",
     }
