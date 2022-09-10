@@ -14,6 +14,7 @@ class Day(IntEnum):
     TODAY = 0
     TOMORROW = 1
 
+
 class Entities(Enum):
     SALIX = "salix"
     BJORK = "bjørk"
@@ -21,6 +22,7 @@ class Entities(Enum):
     HASSEL = "hassel"
     GRESS = "gress"
     BUROT = "burot"
+
 
 class Area(Enum):
     """Enum representing area."""
@@ -63,6 +65,7 @@ AREA_PATH: Dict[Area, str] = {
     Area.ØSTLANDET_MED_OSLO: "b5bb4856-2117-433d-bf18-53504ef2f101",
     Area.SENTRALE_FJELLSTRØK_I_SØR_NORGE: "a3d194c3-7788-45ae-82e7-e8be1d75a713",
 }
+
 
 @attr.s(auto_attribs=True)
 class PollenStation:
@@ -107,7 +110,11 @@ class Allergen:
                 Allergen(
                     name=allergen["name"],
                     latin_name=allergen["latin_name"],
-                    level=float(allergen["level"]),
+                    level=(
+                        float(allergen["level"])
+                        if allergen["level"] is not None
+                        else allergen["level"]
+                    ),
                     no_data=bool(allergen["no_data"]),
                     out_of_season=bool(allergen["out_of_season"]),
                 )
@@ -120,7 +127,7 @@ class PollenForecast:
     """Class representing PollenForecast."""
 
     date: str
-    allergens: List["Allergen"]
+    allergens: List[Allergen]
 
     @staticmethod
     def from_dict(data: List[Dict[str, Any]]) -> List["PollenForecast"]:
@@ -145,8 +152,8 @@ class PollenvarselResponse:
     """Class representing Pollenvarsel."""
 
     status: int
-    pollen_station: "PollenStation"
-    forecast: List["PollenForecast"]
+    pollen_station: PollenStation
+    forecasts: List[PollenForecast]
 
     @staticmethod
     def from_dict(data: Dict[str, Any]) -> "PollenvarselResponse":
@@ -154,11 +161,8 @@ class PollenvarselResponse:
 
         LOGGER.debug("PollenvarselResponse=%s", data)
 
-        forecast: List[Dict[str, Any]] = data["forecast"]
-        pollen_station: Dict[str, Any] = data["pollen_station"]
-
         return PollenvarselResponse(
             status=data["status"],
-            forecast=PollenForecast.from_dict(forecast),
-            pollen_station=PollenStation.from_dict(pollen_station),
+            forecasts=PollenForecast.from_dict(data["forecast"]),
+            pollen_station=PollenStation.from_dict(data["pollen_station"]),
         )
