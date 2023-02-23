@@ -7,6 +7,8 @@
 
 HomeAssistant-integration for Pollenvarsel
 
+**PS: The API used by this integration seems to have changed, and might even have been removed. Because of this, the integration is not currently working.**
+
 ## Installation
 
 ### HACS (Recommended)
